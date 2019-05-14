@@ -1,23 +1,16 @@
-
+/* eslint-disable semi */
 import React, { Component } from 'react';
-
 import './App.css';
+import Weather from './Weather.js'
 
 /** 
- * This example illustrates a simple react project 
- * that works with an external API. 
- * 
- * Take note of the comments they point common 
- * problems you will need to solve with React. 
+ * This example illustrates a simple react project that works with an external API.
+ * Take note of the comments they point common problems you will need to solve with React.
  * 
  * There are two ideas here
  * - Input/Controlled Component Pattern
  * - Conditionally Rendering components 
- * 
- * The project has an input field where a user will
- * input a zip code. It finds weather data for that
- * zip and displays it in a component. 
- * 
+ * The project has an input field where a user will input a zip code. It finds weather data for that zip and displays it in a component.
  * */
 
 class App extends Component {
@@ -25,8 +18,8 @@ class App extends Component {
     super(props)
 
     this.state = {
-      inputValue: '',     // Used to hold value entered in the input field
-      weatherData: null,  // Used to hold data loaded from the weather API
+      inputValue: '', // Used to hold value entered in the input field
+      weatherData: null, // Used to hold data loaded from the weather API
     }
   }
 
@@ -59,8 +52,9 @@ class App extends Component {
   }
 
   renderWeather() {
+    const { weatherData } = this.state
     // This method returns undefined or a JSX component
-    if (this.state.weatherData === null) {
+    if (weatherData === null) {
       // If there is no data return undefined
       return undefined
     }
@@ -70,10 +64,10 @@ class App extends Component {
     possible to get a JSON response for an invalid zip in which 
     case the step below fails. 
     */ 
-    console.log(this.state.weatherData)
-    // Take the weather data apart to more easily populate the component
-    const { main, description, icon } = this.state.weatherData.weather[0]
-    const { temp, pressure, humidity, temp_min, temp_max } = this.state.weatherData.main 
+    console.log(weatherData)
+    // Take the weather data apart to morze easily populate the component
+    const { main, description, icon } = weatherData.weather[0]
+    const { temp, pressure, humidity, temp_min, temp_max } = weatherData.main 
     
     return (
       <div>
@@ -91,15 +85,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Weather />
 
         {/** This input uses the controlled component pattern */}
         <form onSubmit={e => this.handleSubmit(e)}>
-
           {/** 
           This pattern is used for input and other form elements 
           Set the value of the input to a value held in component state
           Set the value held in component state when a change occurs at the input 
           */}
+          
           <input 
             value={this.state.inputValue} 
             onChange={e => this.setState({ inputValue: e.target.value })}
@@ -107,14 +102,10 @@ class App extends Component {
             pattern="(\d{5}([\-]\d{4})?)"
             placeholder="enter zip"
           />
-
           <button type="submit">Submit</button>
-
         </form>
-
         {/** Conditionally render this component */}
         {this.renderWeather()}
-
       </div>
     );
   }
